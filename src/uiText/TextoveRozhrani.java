@@ -46,30 +46,7 @@ public class TextoveRozhrani {
         System.out.println(hra.vratEpilog());
     }
 
-    public void hrajZeSouboru(String nazevSouboru) {
-    try(BufferedReader ctecka = new BufferedReader(new FileReader(nazevSouboru))){
-        System.out.println(hra.vratUvitani());
-
-        // základní cyklus programu - opakovaně se čtou příkazy a poté
-        // se provádějí do konce hry.
-        String radek = ctecka.readLine();
-        while (!hra.konecHry()&& radek != null) {
-            System.out.println("> "+radek);
-            System.out.println(hra.zpracujPrikaz(radek));
-            radek = ctecka.readLine();
-        }
-
-        System.out.println(hra.vratEpilog());
-    }
-    catch(FileNotFoundException e){
-        System.out.println("Soubor nenalezen");
-    }
-    catch (IOException e){
-        System.out.println("Chyba vstupu");
-    }
-    }
-    
-    /**
+   /**
      *  Metoda přečte příkaz z příkazového řádku
      *
      *@return    Vrací přečtený příkaz jako instanci třídy String

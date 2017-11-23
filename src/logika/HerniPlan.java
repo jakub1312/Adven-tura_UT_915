@@ -1,6 +1,9 @@
 package logika;
 
+import GUI.Mapa;
 import java.util.*;
+import utils.Observer;
+import utils.Subject;
 /**
  *  Class HerniPlan - třída představující mapu a stav adventury.
  * 
@@ -17,7 +20,9 @@ public class HerniPlan {
     private Prostor viteznyProstor;
     private Batoh batoh;
     private Prostor prostorSProhrou;
-
+    
+    private List<Observer> listObserveru = new ArrayList<Observer>();
+    
     /**
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
      *  Jako výchozí aktuální prostor nastaví halu.
@@ -34,21 +39,21 @@ public class HerniPlan {
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor chodba = new Prostor("chodba","chodba v hoteli",  false);
-        Prostor izba10A = new Prostor("izba10A","izba10A a odtiaľto sa ti to začína", false);
-        Prostor izba10B = new Prostor("izba10B","izba10B", false);
-        Prostor izba10C = new Prostor("izba10C","izba10C",false);
-        Prostor izba10D = new Prostor("izba10D","izba10D",false);
-        Prostor obyvacka10A = new Prostor("obyvacka10A", "obyvacka10A",true);
-        Prostor obyvacka10B = new Prostor("obyvacka10B", "obyvacka10B",true);
-        Prostor obyvacka10C = new Prostor("obyvacka10C", "obyvacka10C",false);
-        Prostor spalna10A = new Prostor("spalna10A", "spalna10A",false);
-        Prostor spalna10B = new Prostor("spalna10B", "spalna10B",false);
-        Prostor spalna10C = new Prostor("spalna10C", "spalna10C",true);
-        Prostor schody = new Prostor("schody", "schody",false);
-        Prostor vytah = new Prostor("vytah", "vytah",false);
-        Prostor lobby = new Prostor("lobby", "lobby",false);
-        Prostor strecha = new Prostor("strecha", "strecha",false);
+        Prostor chodba = new Prostor("chodba","chodba v hoteli",  false, 10,50);
+        Prostor izba10A = new Prostor("izba10A","izba10A a odtiaľto sa ti to začína", false, 10,50);
+        Prostor izba10B = new Prostor("izba10B","izba10B", false, 10,50);
+        Prostor izba10C = new Prostor("izba10C","izba10C",false, 10,50);
+        Prostor izba10D = new Prostor("izba10D","izba10D",false, 10,50);
+        Prostor obyvacka10A = new Prostor("obyvacka10A", "obyvacka10A",true, 10,50);
+        Prostor obyvacka10B = new Prostor("obyvacka10B", "obyvacka10B",true, 10,50);
+        Prostor obyvacka10C = new Prostor("obyvacka10C", "obyvacka10C",false, 10,50);
+        Prostor spalna10A = new Prostor("spalna10A", "spalna10A",false, 10,50);
+        Prostor spalna10B = new Prostor("spalna10B", "spalna10B",false, 10,50);
+        Prostor spalna10C = new Prostor("spalna10C", "spalna10C",true, 10,50);
+        Prostor schody = new Prostor("schody", "schody",false, 10,50);
+        Prostor vytah = new Prostor("vytah", "vytah",false, 10,50);
+        Prostor lobby = new Prostor("lobby", "lobby",false, 10,50);
+        Prostor strecha = new Prostor("strecha", "strecha",false, 10,50);
 
         // přiřazují se průchody mezi prostory (sousedící prostory)
         chodba.setVychod(izba10A);
@@ -134,6 +139,7 @@ public class HerniPlan {
      */
     public void setAktualniProstor(Prostor prostor) {
         aktualniProstor = prostor;
+        notifyObservers();
     }
 
     /**
@@ -163,6 +169,20 @@ public class HerniPlan {
      */
     public Batoh getBatoh() {
         return batoh;
+    }
+
+    public void registerObserver(utils.Observer observer) {
+        listObserveru.add(observer);
+    }
+
+    public void removeObserver(utils.Observer observer) {
+        listObserveru.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (utils.Observer listObserveruItem : listObserveru) {
+            listObserveruItem.update();
+        }
     }
 
 }

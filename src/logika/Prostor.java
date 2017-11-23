@@ -24,7 +24,8 @@ public class Prostor {
     public Map<String, Vec> seznamVeci; // obsahuje seznam veci
     private Set <Vec> veci;
     private boolean zamcena;
-
+    private double posLeft;
+    private double posTop;
     /**
      * Vytvoření prostoru se zadaným popisem, např. "kuchyň", "hala", "trávník
      * před domem"
@@ -33,15 +34,31 @@ public class Prostor {
      * víceslovný název bez mezer.
      * @param popis Popis prostoru.
      */
-    public Prostor(String nazev, String popis, boolean zamcena) {
+    public Prostor(String nazev, String popis, boolean zamcena, double posLeft, double posTop) {
         this.nazev = nazev;
         this.popis = popis;
         this.zamcena = zamcena;
+        this.posLeft = posLeft;
+        this.posTop = posTop;
 
         veci = new HashSet<>();
         vychody = new HashSet<>();
         seznamVeci = new HashMap<>();
         seznamPostav = new HashMap<>();
+    }
+
+    Prostor(String chodba, String chodba_v_hoteli, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
+    public double getPosLeft() {
+        return posLeft;
+    }
+
+    public double getPosTop() {
+        return posTop;
     }
 
     /**
