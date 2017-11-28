@@ -19,7 +19,10 @@ import logika.IHra;
 import logika.Vec;
 import utils.Observer;
 
-
+//autor Jakub Ismail
+    /*
+    * Konstruktor pre panel batohu.
+    */
 public class PanelBatohu extends ListView implements Observer{
     
     private HerniPlan plan;
@@ -27,9 +30,7 @@ public class PanelBatohu extends ListView implements Observer{
     private ObservableList<Object> data = FXCollections.observableArrayList();
     private TextArea centralText;
 
-    /*
-    * Konstruktor pre panel batohu.
-    */
+    
     public PanelBatohu(HerniPlan plan, TextArea text) {
        this.plan = plan;
        plan.registerObserver(this);

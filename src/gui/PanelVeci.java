@@ -21,7 +21,11 @@ import logika.Vec;
 import logika.Prostor;
 import utils.Observer;
 
+//autor Jakub Ismail
 
+    /*
+    * Konstruktor pre panel vecí v priestore.
+    */
 public class PanelVeci extends ListView implements Observer{
     
     private IHra hra;
@@ -30,9 +34,7 @@ public class PanelVeci extends ListView implements Observer{
     private ObservableList<Object> data = FXCollections.observableArrayList();
     private TextArea centralText;
 
-    /*
-    * Konstruktor pre panel vecí v priestore.
-    */
+    
     public PanelVeci(HerniPlan plan, TextArea text) {
        this.plan = plan;
        plan.registerObserver(this);

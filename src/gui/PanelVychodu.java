@@ -17,7 +17,7 @@ import logika.IHra;
 import logika.Prostor;
 import utils.Observer;
 
-
+//autor Jakub Ismail
     /*
     * Konstruktor pre panel s východmi.
     */
