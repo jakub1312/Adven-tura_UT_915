@@ -61,8 +61,8 @@ public class ProstorTest
      */
     public void testVlozVec()
     {
-        Vec vec1 = new Vec("disk", true, true);
-        Vec vec2 = new Vec("čiernyKufrík", true, true);
+        Vec vec1 = new Vec("disk", true, true,"disk.png");
+        Vec vec2 = new Vec("čiernyKufrík", true, true,"cierny.png");
         Prostor prostor1 = new Prostor("chodba", "", false);
         prostor1.vlozVec(vec1);
         prostor1.vlozVec(vec2);

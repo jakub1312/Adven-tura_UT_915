@@ -6,11 +6,17 @@
 package utils;
 
 /**
+ * Rozhranie, ktoré implementuje mapa s krátkým popiskom
  *
- * @author Jakub
+ * @author Jakub Ismail
+ * @version pro školní rok 2017/20178
  */
 public interface Observer {
-    
-    void update ();
-    
+
+    /**
+     * Metoda, ve které proběhne aktualizace pozorovatele, je volána
+     * prostřednictvím metody upozorniPozorovatele z rozhraní Subjekt
+     *
+     */
+    public void update();
 }

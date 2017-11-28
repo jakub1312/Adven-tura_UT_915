@@ -44,7 +44,7 @@ public class PrikazSeber implements IPrikaz
             return "Čo chceš zobrať? Musíš zadať názov vecí";
         }
 
-        String jmenoVeci = parametry[0];
+        /*String jmenoVeci = parametry[0];
         // vyberieme vec
         boolean existuje = plan.getAktualniProstor().obsahujeVec(jmenoVeci);
         if (existuje) {
@@ -69,8 +69,39 @@ public class PrikazSeber implements IPrikaz
             return "Takáto vec tu nie je!";
         }
 
-    }
-
+    }*/
+     String nazevSbiraneVeci = parametry[0];
+     Prostor aktualniProstor = plan.getAktualniProstor();
+     Vec sbirana = aktualniProstor.odeberVec(nazevSbiraneVeci);
+        
+        if (sbirana == null) {
+            return "To tu není!";
+        }
+        else {
+            
+        
+        //Dá se věc sebrat?
+        if(sbirana.isPrenositelna()){         
+            //je v batohu místo?
+            if(batoh.vlozVec(sbirana) == true){
+                    //věc se dá sebrat a v batohu je místo
+                    batoh.vlozVec(sbirana);
+                    plan.notifyObservers();
+                    return "Zobral si " + sbirana.getNazev() ; 
+            }
+         }
+        else{
+                //věc se nedá sebrat
+                aktualniProstor.vlozVec(sbirana);
+                return "To je moc velký!";
+            }
+        //není v něm místo
+        aktualniProstor.vlozVec(sbirana);
+        return "Máš plný batoh";
+       }
+      }
+     
+    
     /**
      *  Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)
      *  

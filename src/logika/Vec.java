@@ -15,6 +15,7 @@ public class Vec
     private String nazev;
     private boolean prenositelna;
     private boolean vymenitelna;
+    private String obrazek;
    
     
     
@@ -25,11 +26,12 @@ public class Vec
     /***************************************************************************
      *  Konstruktor ....
      */
-    public Vec(String nazev, boolean prenositelna, boolean vymenitelna)
+    public Vec(String nazev, boolean prenositelna, boolean vymenitelna, String obrazek)
     {
         this.nazev = nazev;
         this.prenositelna = prenositelna;
         this.vymenitelna = vymenitelna;
+        this.obrazek = obrazek;
         
     }
 
@@ -90,5 +92,9 @@ public class Vec
         return vysledek;
     }
     //== Soukromé metody (instancí i třídy) ========================================
+
+    public String getObrazek() {
+        return obrazek;
+    }
 
 }

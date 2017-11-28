@@ -117,4 +117,8 @@ public class Batoh
         }
         return text;
     }
+
+    public Map<String, Vec> getSeznamVeci() {
+        return seznamVeci;
+    }
 }

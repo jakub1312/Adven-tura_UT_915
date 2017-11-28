@@ -22,7 +22,7 @@ public class Hra implements IHra {
      *  Vytváří hru a inicializuje místnosti (prostřednictvím třídy HerniPlan) a seznam platných příkazů.
      */
     public Hra() {
-        herniPlan = new HerniPlan();
+        herniPlan = new HerniPlan(this);
         
         platnePrikazy = new SeznamPrikazu();
         platnePrikazy.vlozPrikaz(new PrikazNapoveda(platnePrikazy));
@@ -46,9 +46,10 @@ public class Hra implements IHra {
      */
      public String vratUvitani() {
         return "Zdravím Vás agent 47!\n" +
-               "Potrebujete sa dostať čo najrýchlejšie a nepozorovane z apartmánu Forresters Light na Downovej avenue.\n" +
-               "Budova má 20 poschodí a práve sa nachádzate presne uprostred, na 10. poschodí.\n" +
-               "Máte na výber niekoľko možných ciest ale vecte, že potrebujete získať čierny kufrík,\n" +
+               "Potrebujete sa dostať čo najrýchlejšie a nepozorovane z apartmánu \n" +
+               "Forresters Light na Downovej avenue. Budova má 20 poschodí \n" +
+               "a práve sa nachádzate presne uprostred, na 10. poschodí. Máte na \n" +
+               "výber niekoľko možných ciest ale vecte, že potrebujete získať čierny kufrík, \n" +
                "ktorý je síce na vašom poschodí, ale neviete v ktorej miestnosti.\n" + 
                "Nájdite kufrík a až potom sa snažte dostať von z budovy.\n" +
                "Pokiaľ sa dostanete z budovy bez kufríka, tak ste nesplnili misiu.\n" +
@@ -126,6 +127,11 @@ public class Hra implements IHra {
      public HerniPlan getHerniPlan(){
         return herniPlan;
      }
+
+    @Override
+    public SeznamPrikazu getPlatnePrikazy() {
+        return platnePrikazy;
+    }
     
 }
 

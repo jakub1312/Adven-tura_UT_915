@@ -56,10 +56,10 @@ public class BatohTest
     {
         Batoh batoh = new Batoh();
         
-        Vec vec1 = new Vec ("auto",true,true);
-        Vec vec2 = new Vec ("motorka",true,true);
-        Vec vec3 = new Vec ("strom",false,false);
-        Vec vec4 = new Vec ("dom",true,true);
+        Vec vec1 = new Vec ("auto",true,true,"auto.png");
+        Vec vec2 = new Vec ("motorka",true,true,"motorka.png");
+        Vec vec3 = new Vec ("strom",false,false,"strom.png");
+        Vec vec4 = new Vec ("dom",true,true,"dom.png");
         
         assertEquals (true, batoh.isMisto());
         batoh.vlozVec(vec1);

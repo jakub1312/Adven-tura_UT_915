@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,40 +15,43 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import logika.Hra;
-import logika.IHra;
+import logika.*;
 import main.Main;
 
 /**
  *
- * @author ismj00
+ * @author Jakub Ismail
  */
 public class MenuLista extends MenuBar{
     
     private IHra hra;
     private Main main;
+    private Stage stage;
     
-    public MenuLista(IHra hra, Main main){
+    public MenuLista(IHra hra, Main main, Stage stage){
         this.hra = hra;
         this.main = main;
+        this.stage = stage;
         init();
     }
     
+    
+    
     private void init(){
         
-        Menu novySoubor = new Menu("Adventura");
+        Menu novySoubor = new Menu("Adventúra");
         Menu napoveda = new Menu("Help");
         
-        MenuItem novaHra = new MenuItem("Nova hra");
-        //, new ImageView(new Image(Main.class.getResourceAsStream("/zdroje/ikona.png")))
+        MenuItem novaHra = new MenuItem("Nová hra");
+        // new ImageView(new Image(Main.class.getResourceAsStream("/zdroje/ikona.png")))
         
         novaHra.setAccelerator(KeyCombination.keyCombination("Ctrl+H"));
-        MenuItem konecHry = new MenuItem("Konec hry");
+        MenuItem konecHry = new MenuItem("Koniec hry");
         
         novySoubor.getItems().addAll(novaHra, konecHry);
         
-        MenuItem oProgramu = new MenuItem("O programu");
-        MenuItem napovedaItem = new MenuItem("Napoveda");
+        MenuItem oProgramu = new MenuItem("O programe");
+        MenuItem napovedaItem = new MenuItem("Nápoveda");
         
         napoveda.getItems().addAll(oProgramu, napovedaItem);
         
@@ -63,13 +66,10 @@ public class MenuLista extends MenuBar{
         });
         
         novaHra.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
-            public void handle(ActionEvent event) {
-                hra = new Hra();
-                main.getMapa().newGame(hra);
-                main.setHra(hra);
-                main.getCentralText().setText(hra.vratUvitani());
+            public void handle(ActionEvent event)
+            {
+                main.start(stage);
             }
         });
         
@@ -80,9 +80,9 @@ public class MenuLista extends MenuBar{
             
                 Alert oProgramuAlert = new Alert(Alert.AlertType.INFORMATION);
                 
-                oProgramuAlert.setTitle("O programu");
-                oProgramuAlert.setHeaderText("Super adventura Agent47");
-                oProgramuAlert.setContentText("Loren ipsum");
+                oProgramuAlert.setTitle("O programe");
+                oProgramuAlert.setHeaderText("Adventura Agent47");
+                oProgramuAlert.setContentText("Hra pre kurz 4IT115");
                 oProgramuAlert.initOwner(main.getStage());
                 
                 oProgramuAlert.showAndWait();
@@ -95,7 +95,7 @@ public class MenuLista extends MenuBar{
             public void handle(ActionEvent event) {
 
                 Stage stage = new Stage();
-                stage.setTitle("Napovea");
+                stage.setTitle("Nápoveda");
                 
                 WebView webView = new WebView();
                 
@@ -106,8 +106,5 @@ public class MenuLista extends MenuBar{
             
             }
         });
-        
-        
     }
-    
 }

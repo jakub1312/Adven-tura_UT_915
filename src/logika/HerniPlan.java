@@ -1,6 +1,6 @@
 package logika;
 
-import GUI.Mapa;
+import gui.Mapa;
 import java.util.*;
 import utils.Observer;
 import utils.Subject;
@@ -15,7 +15,9 @@ import utils.Subject;
  *@author     Michael Kolling, Lubos Pavlicek, Jarmila Pavlickova, Jakub Ismail
  *@version    pro školní rok 2015/2016
  */
-public class HerniPlan {
+public class HerniPlan implements Subject {
+    
+    private Hra hra;
     private Prostor aktualniProstor;
     private Prostor viteznyProstor;
     private Batoh batoh;
@@ -27,9 +29,10 @@ public class HerniPlan {
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
      *  Jako výchozí aktuální prostor nastaví halu.
      */
-    public HerniPlan() {
+    public HerniPlan(Hra hra) {
         zalozProstoryHry();
         batoh = new Batoh();
+        this.hra = hra;
     }
 
     /**
@@ -39,21 +42,21 @@ public class HerniPlan {
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor chodba = new Prostor("chodba","chodba v hoteli",  false, 10,50);
-        Prostor izba10A = new Prostor("izba10A","izba10A a odtiaľto sa ti to začína", false, 10,50);
-        Prostor izba10B = new Prostor("izba10B","izba10B", false, 10,50);
-        Prostor izba10C = new Prostor("izba10C","izba10C",false, 10,50);
-        Prostor izba10D = new Prostor("izba10D","izba10D",false, 10,50);
-        Prostor obyvacka10A = new Prostor("obyvacka10A", "obyvacka10A",true, 10,50);
-        Prostor obyvacka10B = new Prostor("obyvacka10B", "obyvacka10B",true, 10,50);
-        Prostor obyvacka10C = new Prostor("obyvacka10C", "obyvacka10C",false, 10,50);
-        Prostor spalna10A = new Prostor("spalna10A", "spalna10A",false, 10,50);
-        Prostor spalna10B = new Prostor("spalna10B", "spalna10B",false, 10,50);
-        Prostor spalna10C = new Prostor("spalna10C", "spalna10C",true, 10,50);
-        Prostor schody = new Prostor("schody", "schody",false, 10,50);
-        Prostor vytah = new Prostor("vytah", "vytah",false, 10,50);
-        Prostor lobby = new Prostor("lobby", "lobby",false, 10,50);
-        Prostor strecha = new Prostor("strecha", "strecha",false, 10,50);
+        Prostor chodba = new Prostor("chodba","chodba v hoteli",  false, 60, 170);
+        Prostor izba10A = new Prostor("izba10A","izba10A a odtiaľto sa ti to začína", false, 50, 95);
+        Prostor izba10B = new Prostor("izba10B","izba10B", false, 170,95);
+        Prostor izba10C = new Prostor("izba10C","izba10C",false, 50,320);
+        Prostor izba10D = new Prostor("izba10D","izba10D",false, 180,320);
+        Prostor obyvacka10A = new Prostor("obyvacka10A", "obyvacka10A",true, 70,55);
+        Prostor obyvacka10B = new Prostor("obyvacka10B", "obyvacka10B",true, 120,55);
+        Prostor obyvacka10C = new Prostor("obyvacka10C", "obyvacka10C",false, 100,390);
+        Prostor spalna10A = new Prostor("spalna10A", "spalna10A",false, 50,55);
+        Prostor spalna10B = new Prostor("spalna10B", "spalna10B",false, 180,55);
+        Prostor spalna10C = new Prostor("spalna10C", "spalna10C",true, 50,380);
+        Prostor schody = new Prostor("schody", "schody",false, 160,170);
+        Prostor vytah = new Prostor("vytah", "vytah",false, 160,270);
+        Prostor lobby = new Prostor("lobby", "lobby",false, 230,170);
+        Prostor strecha = new Prostor("strecha", "strecha",false, 230,270);
 
         // přiřazují se průchody mezi prostory (sousedící prostory)
         chodba.setVychod(izba10A);
@@ -100,21 +103,21 @@ public class HerniPlan {
         chodba.vlozPostavu(pomocnik);
         
         //Vytvárajú sa veci a vkladajú do jednotlivých miestností
-        Vec sivyKufrik = new Vec("sivýKufrík",true,false);
+        Vec sivyKufrik = new Vec("sivýKufrík",true, false,"sivyKufrik.png");
         spalna10A.vlozVec(sivyKufrik);
-        Vec postel1 = new Vec("posteľ",false,false);
+        Vec postel1 = new Vec("posteľ",false,false,"postel1.png");
         spalna10A.vlozVec(postel1);
-        Vec postel2 = new Vec("posteľ",false,false);
+        Vec postel2 = new Vec("posteľ",false,false,"postel2.png");
         spalna10B.vlozVec(postel2);
-        Vec hnedyKufrik = new Vec("hnedýKufrík",true,false);
+        Vec hnedyKufrik = new Vec("hnedýKufrík",true,false,"hnedyKufrik.png");
         obyvacka10C.vlozVec(hnedyKufrik);
-        Vec ciernyKufrik = new Vec("čiernyKufrík",true,true);
+        Vec ciernyKufrik = new Vec("čiernyKufrík",true,true,"ciernyKufrik.png");
         izba10D.vlozVec(ciernyKufrik);
-        Vec disk = new Vec("disk",true,true);
+        Vec disk = new Vec("disk",true,true,"disk.png");
         spalna10B.vlozVec(disk);
-        Vec stolik = new Vec("stolík", false,false);
+        Vec stolik = new Vec("stolík", false,false,"stolik.png");
         obyvacka10C.vlozVec(stolik);
-        Vec skrina = new Vec("skriňa",false,false);
+        Vec skrina = new Vec("skriňa",false,false,"skrina.png");
         spalna10B.vlozVec(skrina);
 
         aktualniProstor = izba10A;  // hra začíná v izbe 10A    
@@ -154,7 +157,13 @@ public class HerniPlan {
             return false;
         }
     }
-
+    /**
+     * Metóda vracia odkaz na aktuálny batoh.
+     * @return batoh
+     */
+    public Batoh getBatoh() {
+        return batoh;
+    }
     /**
      *  Metoda ktorá určuje či je aktualny priestor s prehrou.
      */
@@ -163,26 +172,42 @@ public class HerniPlan {
         return (aktualniProstor.equals(prostorSProhrou));
     }
 
+    
+    
+    
     /**
-     * Metóda vracia odkaz na aktuálny batoh.
-     * @return batoh
+     * Abstraktné metody
+     * @param observer
      */
-    public Batoh getBatoh() {
-        return batoh;
-    }
-
-    public void registerObserver(utils.Observer observer) {
+    /*
+    * Metoda, ktorá pridá pozorovateľa do zoznamu observerov
+     */
+    @Override
+    public void registerObserver(Observer observer) {
         listObserveru.add(observer);
     }
-
-    public void removeObserver(utils.Observer observer) {
+    /*
+    * Metoda, ktorá odeberie pozorovateľa zo zoznamu observerov
+     */
+    @Override
+    public void removeObserver(Observer observer) {
         listObserveru.remove(observer);
     }
-
+    /*
+    * Metoda, ktorá upozorní pozorovateľa a aktualizuje zoznamu observerov batohu
+     */
+    @Override
     public void notifyObservers() {
         for (utils.Observer listObserveruItem : listObserveru) {
             listObserveruItem.update();
         }
     }
+    
+    
+    public Hra getHra() {
+        return hra;
+    }
+
+   
 
 }

@@ -10,9 +10,28 @@ package utils;
  * @author Jakub
  */
 public interface Subject {
-    void registerObserver(Observer observer);
+    /**
+     * Metoda slouží k zaregistrování pozorovatele, musí to být instance třídy,
+     * která implementuje rozhraní Observer.
+     *
+     * @param pozorovatel registrovaný objekt
+     */
+    public void registerObserver(Observer observer);
+
+    /**
+     * Metoda slouží k zrušení registrace pozorovatele, musí to být instance
+     * třídy, která implementuje rozhraní Observer.
+     *
+     * @param pozorovatel objekt, který již nechce být informován o změnách
+     */
     
-    void removeObserver(Observer observer);
+    public void removeObserver(Observer observer);
     
-    void notifyObservers();
+    /**
+     * Metoda, která se volá vždy, když dojde ke změně této instance. Upozorní
+     * všechny pozorovatele, že došlo ke změně tak, že zavolá jejich metodu
+     * aktualizuj.
+     */
+    public void notifyObservers();
+    
 }

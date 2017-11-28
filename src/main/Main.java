@@ -1,71 +1,87 @@
 package main;
 
-import GUI.Mapa;
-import GUI.MenuLista;
+import gui.Mapa;
+import gui.MenuLista;
+import gui.PanelVeci;
+import gui.PanelBatohu;
+import gui.PanelVychodu;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import logika.*;
 import uiText.TextoveRozhrani;
 
 /**
  *
- * @author xzenj02
+ * @author Jakub Ismail
  */
-public class Main extends Application {
+    public class Main extends Application {
 
-private TextArea centralText;
-private IHra hra;
-private TextField zadejPrikazTextArea;
-
- public void setHra(IHra hra) {
-        this.hra = hra;
-    }
-    
-    private Mapa mapa;
-    private MenuLista menuLista;
-    
+    private IHra hra;
     private Stage stage;
+     
+    
+    private TextArea centralText;
+    
+    private TextField zadejPrikazTextArea; 
+
+    private Mapa mapa; 
+    private PanelBatohu panelBatohu;
+    private PanelVychodu panelVychodu;
+    private PanelVeci panelVeci;
+    
+    private MenuLista menuLista; 
+    
+    
     
    @Override
     public void start(Stage primaryStage) {
-        this.setStage(primaryStage);
+        this.stage = primaryStage;
         
-        hra = new Hra();
-        
+        setHra(new Hra());
         mapa = new Mapa(hra);
-        menuLista = new MenuLista(hra, this);
+        menuLista = new MenuLista(hra, this, stage);
         
-        BorderPane borderPane = new BorderPane();
-        
+        BorderPane hlavny = new BorderPane();
+                
         // Text s prubehem hry
         centralText = new TextArea();
-        centralText.setText(hra.vratUvitani());
-        centralText.setEditable(false);
-        borderPane.setCenter(centralText);
+        getCentralText().setFont(Font.font("Book Antiqua", FontWeight.LIGHT, 14));
+        getCentralText().setText(hra.vratUvitani());
+        getCentralText().setEditable(false);
+        getCentralText().setPrefWidth(500);
         
         //label s textem zadej prikaz
-        Label zadejPrikazLabel = new Label("Zadej prikaz: ");
+        Label zadejPrikazLabel = new Label("Zadaj príkaz: ");
         zadejPrikazLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         
+       
         // text area do ktere piseme prikazy
-        zadejPrikazTextArea = new TextField("...");
+        zadejPrikazTextArea = new TextField("Sem zadaj príkaz");
         zadejPrikazTextArea.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
@@ -73,44 +89,54 @@ private TextField zadejPrikazTextArea;
                 
                 String vstupniPrikaz = zadejPrikazTextArea.getText();
                 String odpovedHry = hra.zpracujPrikaz(vstupniPrikaz);
-                
-                centralText.appendText("\n" + vstupniPrikaz + "\n");
-                centralText.appendText("\n" + odpovedHry + "\n");
+                                                
+                getCentralText().appendText("\n" + vstupniPrikaz + "\n");
+                getCentralText().appendText("\n" + odpovedHry + "\n");
                 
                 zadejPrikazTextArea.setText("");
                 
                 if (hra.konecHry()) {
                     zadejPrikazTextArea.setEditable(false);
-                    centralText.appendText(hra.vratEpilog());
+                    getCentralText().appendText(hra.vratEpilog());
                 }
             }
         });
         
+        
+        
          //dolni lista s elementy
         FlowPane dolniLista = new FlowPane();
+        dolniLista.getChildren().addAll(zadejPrikazLabel, zadejPrikazTextArea);
         dolniLista.setAlignment(Pos.CENTER);
-        dolniLista.getChildren().addAll(zadejPrikazLabel,zadejPrikazTextArea);
         
-        borderPane.setLeft(mapa);
-        borderPane.setBottom(dolniLista);
-        borderPane.setTop(menuLista);
+        //lavy panel, na ktorom sú panely batoh, veci a textové rozhranie hry
+        BorderPane levy = new BorderPane();
+        PanelBatohu panelBatohu = new PanelBatohu(hra.getHerniPlan(),centralText);
+        PanelVeci panelVeci = new PanelVeci(hra.getHerniPlan(),centralText);       
+        PanelVychodu panelVychodu = new PanelVychodu(hra.getHerniPlan(),centralText,zadejPrikazTextArea);
         
-        Scene scene = new Scene(borderPane, 750, 450);
-        primaryStage.setTitle("Adventura");
+        levy.setLeft(panelBatohu.getList());
+        levy.setRight(panelVeci.getList());
+        levy.setCenter(getCentralText());
+        
+        //pravy panel, na ktorom sa nachádza mapa a východy
+        BorderPane pravy = new BorderPane();
+        pravy.setRight(getMapa());
+        pravy.setLeft(panelVychodu.getList());
+        
+        hlavny.setRight(pravy);
+        hlavny.setLeft(levy);
+        hlavny.setBottom(dolniLista);
+        hlavny.setTop(menuLista);
+        
+        Scene scene = new Scene(hlavny, 1200, 500);
+        primaryStage.setTitle("Dobrodružstvá Agenta47 - Adventúra 4IT115");
 
         primaryStage.setScene(scene);
         primaryStage.show();
         zadejPrikazTextArea.requestFocus();
     }
     
-    public TextArea getCentralText() {
-        return centralText;
-    }
-
-    public Mapa getMapa() {
-        return mapa;
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -130,16 +156,51 @@ private TextField zadejPrikazTextArea;
             }
         }
     }
-
+    
+        
+        
+    
+    /**
+     * @return the stage
+     */
     public Stage getStage() {
         return stage;
     }
-
+    
     /**
-     * @param stage the stage to set
+     * @param hra the hra to set
      */
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void setHra(IHra hra) {
+        this.hra = hra;
+    }
+    
+    
+    
+    /**
+     * Metóda vracajúca mapu
+     * @return the mapa
+     */
+    public Mapa getMapa() {
+        return mapa;
     }
 
+    /**
+     * Metoda vracajúca hlavný text
+     * @return the centralText
+     */
+    public TextArea getCentralText() {
+        return centralText;
+    }
+    /**
+     * Metoda vracejici odkaz na objekt TextField
+     *
+     * @return TextArea s prikazem
+     */
+    public TextField getZadejPrikazTextArea(){
+        return zadejPrikazTextArea;
+    }
+    
+    
+    
+    
 }

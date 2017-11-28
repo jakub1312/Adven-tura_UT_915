@@ -21,7 +21,7 @@ public class Prostor {
     private Set<Prostor> vychody;   // obsahuje sousední místnosti
 
     private Map<String, Postava> seznamPostav;
-    public Map<String, Vec> seznamVeci; // obsahuje seznam veci
+    private Map<String, Vec> seznamVeci; // obsahuje seznam veci
     private Set <Vec> veci;
     private boolean zamcena;
     private double posLeft;
@@ -247,7 +247,14 @@ public class Prostor {
         return null;
     }
 
-
+    /**
+     * Metoda maže věci
+     * 
+     * @return název mazané věci
+     */
+    public Vec odeberVec(String nazev){
+        return seznamVeci.remove(nazev);
+    }
     /**
      * Metoda zjistuje, zda se v mistnosti vyskytje vec uvedena v parametru
      * 
@@ -355,5 +362,27 @@ public class Prostor {
      */
     public Vec getVec(String nazevVeci) {
         return seznamVeci.get(nazevVeci);
+    }
+
+    
+
+    
+    
+    
+    
+    public Map<String, Vec> getSeznamVeci(){
+        return seznamVeci;
+    }
+            
+
+    
+
+public String seznamVychodu() 
+    {
+        String vracenyText = "vychody:";
+        for (Prostor sousedni : vychody) {
+             vracenyText += " " + sousedni.getNazev();
+        }
+        return vracenyText;
     }
 }
