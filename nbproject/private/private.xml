@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/JAVA/Adventura_ut_915/src/gui/PanelBatohu.java</file>
+            <file>file:/C:/JAVA/Adventura_ut_915/src/gui/PanelVychodu.java</file>
+            <file>file:/C:/JAVA/Adventura_ut_915/src/gui/Mapa.java</file>
+            <file>file:/C:/JAVA/Adventura_ut_915/src/gui/PanelVeci.java</file>
+        </group>
     </open-files>
 </project-private>
